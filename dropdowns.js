@@ -1,4 +1,6 @@
 (function () {
+	"use strict";
+
 	function DropDownMenus (configObj) {
 		var dropDown = this;
 		try {
@@ -19,12 +21,7 @@
 			console.log(ex);
 		}
 
-		var menuOpen = false, timer = configObj.timeout, menuTimeout = null;
-
-		this.clearMenuTimeout = function () {
-			clearTimeout(dropDown.menuTimeout);
-			dropDown.menuTimeout = null;
-		};
+		var menuOpen = null, timer = configObj.timeout, menuTimeout = null;
 
 		this.getTargetMenu = function (tgt) {
 			var i = this.menus.length, tgtClasses = tgt.className;
@@ -35,22 +32,49 @@
 			}
 		};
 
-		var tgtClickFunc = function (event) {
+		var clearMenuTimeout = function () {
+			clearTimeout(menuTimeout);
+			menuTimeout = null;
+		},
+
+		hideMenu = function () {
+			if (menuOpen === null) {
+				return;
+			}
+			menuOpen.style.display = "none";
+			clearMenuTimeout();
+			menuOpen = null;
+		},
+
+		setMenuPosition = function (tgt, ddMenu) {
+			ddMenu.style.position = "fixed";
+				 
+		},
+
+		showMenu = function (ddMenu) {
+			
+		},
+
+		tgtClickFunc = function (event) {
 			var src = event.target ? event.target : event.srcElement,
 			menu = dropDown.getTargetMenu(src);
 
-			setMenuPosition(menu);
+			setMenuPosition(src, menu);
 			showMenu(menu);
 
-			dropDown.menuTimeout = setTimeout(hideMenu, dropDown.timer);
+			menuTimeout = setTimeout(hideMenu, dropDown.timer);
 		},
 
 		docClickFunc = function (event) {
-
+			hideMenu();
 		},
 
-		menuHoverFunc = function (event) {
+		menuMouseLeaveFunc = function (event) {
+			menuTImeout = setTimeout(hideMenu, 1500);
+		},
 
+		menuMouseEnterFunc = function (event) {
+			clearMenuTimeout();
 		};
 
 		this.init = function () {
