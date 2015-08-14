@@ -1,0 +1,59 @@
+html, body {
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+body {
+	font-family: 'Arial', 'Tahoma', 'Helvetica';
+	font-size: 1em;
+	width: 100%;
+	height: 100%;
+}
+
+header, footer {
+	width: 90%;
+	left: 5%;
+	background-color: #1d2eb3;
+	position: fixed;
+}
+
+header {
+	top: 0px;
+	height: 40px;	
+}
+
+header nav {
+	text-align: right;
+}
+
+nav ul.nav-list {
+	list-style: none;
+	margin-right: 10px;
+}
+
+nav ul.nav-list li {
+	margin-left: 10px;
+	margin-right: 10px;
+	display: inline-block;
+}
+
+main, .sidebar {
+	position: relative;
+	top: 40px;
+	height: auto;
+}
+
+.sidebar {
+	width: 10%;
+	margin: auto;
+}
+
+main {
+	width: 50%;
+	margin: auto;
+}
+
+footer {
+	bottom: 0px;
+	height: 40px;
+}
