@@ -21,18 +21,20 @@
 			console.log(ex);
 		}
 
-		var menuOpen = null, hideTimer = (configObj.timeout ? configObj.timeout : 4000), menuTimeout = null;
+		var menuOpen = null,
+			hideTimer = (configObj.hideTimer ? configObj.hideTimer : 4000), 
+			menuTimeout = null,
 
-		this.getTargetMenu = function (tgt) {
-			var i = this.menus.length, tgtClasses = tgt.className;
+		getTargetMenu = function (tgt) {
+			var i = dropDown.menus.length, tgtClasses = tgt.className;
 			while (i--) {
-				if (tgtClasses.indexOf("ddm-" + this.menus[i].id) !== -1) {
-					return this.menus[i];
+				if (tgtClasses.indexOf("ddm-" + dropDown.menus[i].id) !== -1) {
+					return dropDown.menus[i];
 				}
 			}
-		};
+		},
 
-		var clearMenuTimeout = function () {
+		clearMenuTimeout = function () {
 			clearTimeout(menuTimeout);
 			menuTimeout = null;
 		},
@@ -68,9 +70,12 @@
 
 		tgtClickFunc = function (event) {
 			var src = event.target ? event.target : event.srcElement,
-			menu = dropDown.getTargetMenu(src);
+			menu = getTargetMenu(src);
 			if (menuOpen !== null && menu.id == menuOpen.id) {
 				return hideMenu();
+			}
+			else if (menuOpen !== null) {
+				hideMenu();
 			}
 			setMenuPosition(src, menu);
 			showMenu(menu);
@@ -103,6 +108,4 @@
 	}
 
 	window.DropDownMenus = DropDownMenus;
-
-	new DropDownMenus({});
 }());

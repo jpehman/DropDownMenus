@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DropDownMenu Tests</title>
+  <link rel="stylesheet" href="qunit/qunit-1.18.0.css">
+  <link rel="stylesheet" href="css/dropdowns.css">
+</head>
+<body>
+	<nav>
+		<button type="button" class="dd-menu-target ddm-topNav ddm-down">
+			Top
+		</button>
+		<div class="dd-menu" id="topNav">
+			<ul class="dd-menu-list">
+				<li>Primary Menu Item</li>
+				<li>Secondary Menu Item</li>
+				<li>Tertiary Menu Item</li>
+				<li>Quadrinary Menu Item</li>
+			</ul>
+		</div>
+	</nav>
+	<nav>
+		<button type="button" class="dd-menu-target ddm-bottomNav ddm-up">
+			Bottom
+		</button>
+		<div class="dd-menu" id="bottomNav">
+			<ul class="dd-menu-list">
+				<li>Primary Menu Item</li>
+				<li>Secondary Menu Item</li>
+				<li>Tertiary Menu Item</li>
+				<li>Quadrinary Menu Item</li>
+			</ul>
+		</div>
+	</nav>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <script src="qunit/qunit-1.18.0.js"></script>
+  <script src="js/jquery-1.11.3.js"></script>
+  <script src="js/dropdowns.js"></script>
+
+  <script type="text/javascript">
+  	var ddMenus = new DropDownMenus({"hideTimer": 1000});
+  	QUnit.test("ddmenu get menus tests", function (assert) {
+  		assert.deepEqual(document.getElementById("topNav"), ddMenus.menus[0], "First drop down menu found is equivalent to topNav");
+  		assert.deepEqual(document.getElementById("bottomNav"), ddMenus.menus[1], "Second drop down menu found is the equivalent to bottomNav");
+  	});
+
+  	QUnit.test("ddmenu get targets tests", function (assert) {
+  		assert.deepEqual(document.querySelector(".ddm-topNav"), ddMenus.targets[0], "First drop down target found is equivalent to topNav target");
+  		assert.deepEqual(document.querySelector(".ddm-bottomNav"), ddMenus.targets[1], "Second drop down target found is equivalent to bottomNav target");
+  	});
+
+  	QUnit.test("ddmenu show menu tests", function (assert) {
+  		var done1 = assert.async();
+  		var done2 = assert.async();
+  		$(".ddm-topNav").click();
+  		assert.equal("block", $("#topNav").css("display"), "topNav menu showed on target clicked");
+  		setTimeout(function () {
+  			assert.equal("none", $("#topNav").css("display"), "topNav menu hidden after timer completed");
+  			done1();
+  		}, 1100);
+  		
+  		$(".ddm-bottomNav").click();
+  		assert.equal("block", $("#bottomNav").css("display"), "bottomNav menu showed on target clicked");
+  		setTimeout(function () {
+  			assert.equal("none", $("#bottomNav").css("display"), "bottomNav menu hidden after timer completed");
+  			done2();
+  		}, 1100);
+  	});
+  </script>
+</body>
+</html>
