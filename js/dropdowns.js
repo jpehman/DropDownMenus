@@ -1,8 +1,34 @@
 (function () {
 	"use strict";
 
+	/*
+	* @param {object} configObj : required 
+	* 	- configuration object for the DropDownMenus constructor
+	* @param {string} configObj.bgColor : optional : default = #f9f9f9
+	*	- hex color string for the background color of the drop down menu
+	* @param {string} configObj.borderColor : optional : default = #cccccc
+	*	- hex color string for the border color of the drop down menu
+	* @param {string} configObj.textColor : optional : default = #333333
+	*   - hex color string for the color of the text in the drop down menus
+	* @param {string} configObj.hoverColor : optional : default = #cccccc
+	* @param {number} configObj.hideTimer : optional : default = 4000ms
+	*   - time it takes for the drop down menu to hide if not hoveered over
+	*/
 	function DropDownMenus (configObj) {
-		var dropDown = this;
+		var dropDown, menuBgColor, menuBorderColor,
+			menuTextColor, menuHoverColor, menuOpen,
+			hideTimer, menuTimeout, idx, $menu;
+
+		if (typeof configObj !== "object") {
+			throw "configObj must be an object";
+		}
+
+		dropDown = this;
+		menuBgColor = configObj.bgColor || null;
+		menuBorderColor = configObj.borderColor || null;
+		menuTextColor = configObj.textColor || null;
+		menuHoverColor = configObj.hoverColor || null;
+
 		try {
 			this.menus = document.querySelectorAll(".dd-menu");
 
@@ -21,11 +47,11 @@
 			console.log(ex);
 		}
 
-		var menuOpen = null,
-			hideTimer = (configObj.hideTimer ? configObj.hideTimer : 4000), 
-			menuTimeout = null,
+		menuOpen = null;
+		hideTimer = (configObj.hideTimer ? configObj.hideTimer : 4000);
+		menuTimeout = null;
 
-		getTargetMenu = function (tgt) {
+		var getTargetMenu = function (tgt) {
 			var i = dropDown.menus.length, tgtClasses = tgt.className;
 			while (i--) {
 				if (tgtClasses.indexOf("ddm-" + dropDown.menus[i].id) !== -1) {
@@ -68,8 +94,8 @@
 			menuOpen = ddMenu;
 		},
 
-		tgtClickFunc = function (event) {
-			var src = event.target ? event.target : event.srcElement,
+		tgtClickFunc = function (evt) {
+			var src = evt.target ? evt.target : evt.srcElement,
 			menu = getTargetMenu(src);
 			if (menuOpen !== null && menu.id == menuOpen.id) {
 				return hideMenu();
@@ -83,28 +109,44 @@
 			menuTimeout = setTimeout(hideMenu, hideTimer);
 		},
 
-		docClickFunc = function (event) {
+		docClickFunc = function (evt) {
 			hideMenu();
 		},
 
-		menuMouseLeaveFunc = function (event) {
+		menuMouseLeaveFunc = function (evt) {
 			menuTimeout = setTimeout(hideMenu, 1000);
 		},
 
-		menuMouseEnterFunc = function (event) {
+		menuMouseEnterFunc = function (evt) {
 			clearMenuTimeout();
 		};
 
-		var idx = this.targets.length;
+		idx = this.targets.length;
 		while (idx--) {
 			dropDown.targets[idx].onclick = tgtClickFunc;
 		}
 
 		idx = this.menus.length;
 		while (idx--) {
+			$menu = $(dropDown.menus[idx]);
 			dropDown.menus[idx].onmouseenter = menuMouseEnterFunc;
 			dropDown.menus[idx].onmouseleave = menuMouseLeaveFunc;
+			$menu.css({
+				"background-color": menuBgColor !== null ? menuBgColor : "",
+				"border-color": menuBorderColor !== null ? menuBorderColor : "",
+				"color": menuTextColor !== null ? menuTextColor : ""
+			});
+
+			if (menuHoverColor !== null) {
+				$menu.find("li").hover(function (evt) {
+					$(this).css("background-color", menuHoverColor);
+				}, function (evt) {
+					$(this).css("background-color", " ");
+				});
+			}
 		}
+    
+    	document.onclick = docClickFunc;
 	}
 
 	window.DropDownMenus = DropDownMenus;

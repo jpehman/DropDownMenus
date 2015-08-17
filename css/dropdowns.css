@@ -31,7 +31,6 @@
 	transition: all 0.25s ease;
 }
 
-.dd-menu-list li:hover,
-.dd-menu-list li:focus {
+.dd-menu-list li:hover {
 	background-color: #ccc;
 }
