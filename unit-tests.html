@@ -69,6 +69,23 @@
   			done2();
   		}, 1100);
   	});
+
+    QUnit.test("ddmenu hide on document click", function (assert) {
+      var done1 = assert.async();
+      var done2 = assert.async();
+
+      $(".ddm-topNav").click();
+      setTimeout(function () {
+        assert.equal("block", $("#topNav").css("display"), "topNav menu still showing after 150ms");
+        done1();
+      }, 150);
+      setTimeout(function () {
+        $(document).click();
+
+        assert.equal("none", $("#topNav").css("display"), "topNav menu hidden on document clicked");
+        done2();
+      }, 300);
+    });
   </script>
 </body>
 </html>

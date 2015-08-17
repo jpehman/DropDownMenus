@@ -110,6 +110,10 @@
 		},
 
 		docClickFunc = function (evt) {
+			var src = evt.target ? evt.target : evt.srcElement;
+			if ($(src).hasClass("dd-menu-target")) {
+				return;
+			}
 			hideMenu();
 		},
 
@@ -145,8 +149,7 @@
 				});
 			}
 		}
-    
-    	document.onclick = docClickFunc;
+		document.onclick = docClickFunc;
 	}
 
 	window.DropDownMenus = DropDownMenus;
