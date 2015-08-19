@@ -24,15 +24,19 @@
 			</nav>
 		</header>
 		<div class="sidebar">
-			<nav class="dd-menu-target ddm-leftNav">
+			<nav>
 				<ul class="nav">
 					<li>Main Menu</li>
 					<li>Secondary Menu</li>
-					<li>Tertiary Menu</li>
+					<li class="dd-menu-target ddm-leftNav ddm-right">Tertiary Menu</li>
 				</ul>
 			</nav>
 			<div class="dd-menu" id="leftNav">
-
+				<ul class="dd-menu-list">
+					<li><a href="#">Something New</a></li>
+					<li><a href="#">Something Old</a></li>
+					<li><a href="#">Something Cool</a></li>
+				</ul>
 			</div>
 		</div>
 		<main>
@@ -66,6 +70,6 @@
 	<script src="js/jquery-1.11.3.js"></script>
 	<script src="js/dropdowns.js"></script>
 	<script type="text/javascript">
-		
+		new DropDownMenus({});
 	</script>
 </html>

@@ -76,14 +76,34 @@
 
 		setMenuPosition = function (tgt, ddMenu) {
 			var left = $(tgt).position().left,
+			winWidth = $(window).width(),
+			menuWidth = null,
 			$ddMenu = $(ddMenu);
 
 			$ddMenu.css({
-				"position": "fixed",
+				"position": "fixed"
 			}).width("auto");
 
-			while ($ddMenu.width() + left > $(window).width()) {
-				left -= 2;
+			menuWidth = $ddMenu.width();
+			if ($ddMenu.hasClass("ddm-left")) {
+				left += $(tgt).width();
+			}
+			else if ($ddMenu.hasClass("ddm-top")) {
+
+			}
+			else if ($ddMenu.hasClass("ddm-bottom")) {
+
+			}
+			else if ($ddMenu.hasClass("ddm-right")) {
+				
+			}
+			if (menuWidth + left > winWidth) {
+				while (menuWidth + left > winWidth) {
+					left -= 2;
+				}
+			}
+			else if (left < 10) {
+				left = 10;
 			}
 
 			$ddMenu.css("left", left);
